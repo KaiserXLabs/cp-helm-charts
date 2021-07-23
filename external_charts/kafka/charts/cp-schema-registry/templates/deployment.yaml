@@ -53,6 +53,12 @@ spec:
           resources:
 {{ toYaml .Values.prometheus.jmx.resources | indent 12 }}
           volumeMounts:
+        {{- range .Values.extra.extraSecretMounts }}
+          - name: {{ .name }}
+            mountPath: {{ .mountPath }}
+            subPath: {{ .subPath }}
+            readOnly: {{ .readOnly }}
+        {{- end }}
           - name: jmx-config
             mountPath: /etc/jmx-schema-registry
         {{- end }}
@@ -100,11 +106,28 @@ spec:
           - name: JMX_PORT
             value: "{{ .Values.jmx.port }}"
           {{- end }}
+          {{- with .Values.extra.extraEnv }}
+            {{- range . }}
+          - name: {{ .name }}
+            value: {{ .value | quote }}
+            {{- end }}
+          {{- end -}}
+          {{- with .Values.extra.extraEnvB64 -}}
+            {{ tpl (b64dec .) $ | nindent 10 }}
+          {{- end -}}
+{{- with .Values.extra.extraContainers }}
+{{ tpl . $ | indent 6 }}
+{{- end }}
       {{- if .Values.imagePullSecrets }}
       imagePullSecrets:
 {{ toYaml .Values.imagePullSecrets | indent 8 }}
       {{- end }}
       volumes:
+    {{- range .Values.extra.extraSecretMounts }}
+      - name: {{ .name }}
+        secret:
+          secretName: {{ .secretName }}
+    {{- end }}
       {{- if .Values.prometheus.jmx.enabled }}
       - name: jmx-config
         configMap:

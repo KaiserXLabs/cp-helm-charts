@@ -19,14 +19,10 @@ cp-zookeeper:
     ## Size for Data dir, where ZooKeeper will store the in-memory database snapshots.
     dataDirSize: 10Gi
     # dataDirStorageClass: ""
+
     ## Size for data log dir, which is a dedicated log device to be used, and helps avoid competition between logging and snaphots.
     dataLogDirSize: 10Gi
     # dataLogDirStorageClass: ""
-    
-  # TODO: find correct security context for user in this zk-image  
-  securityContext: 
-    runAsUser: 0
-
   resources: {}
   ## If you do want to specify resources, uncomment the following lines, adjust them as necessary,
   ## and remove the curly braces after 'resources:'
@@ -64,8 +60,6 @@ cp-kafka:
   #  requests:
   #   cpu: 100m
   #   memory: 128Mi
-  securityContext: 
-    runAsUser: 0
 
 ## ------------------------------------------------------
 ## Schema Registry

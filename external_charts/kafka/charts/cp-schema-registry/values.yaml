@@ -84,3 +84,15 @@ prometheus:
     port: 5556
 
     resources: {}
+
+extra:
+  extraSecretMounts: []
+    # - name: 
+    #   secretName: 
+  extraContainers: |
+    # - name: extra-container
+    #   image: nginx
+    #   imagePullPolicy: IfNotPresent
+  extraEnv: []
+    # - name:
+    #   value: 

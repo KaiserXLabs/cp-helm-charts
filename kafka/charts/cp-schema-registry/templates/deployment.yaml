@@ -115,8 +115,8 @@ spec:
           {{- with .Values.extra.extraEnvB64 -}}
             {{ tpl (b64dec .) $ | nindent 10 }}
           {{- end -}}
-{{- with .Values.extra.extraContainers }}
-{{ tpl . $ | indent 6 }}
+{{- if .Values.extra.extraContainers }}
+{{ tpl .Values.extra.extraContainers $ | indent 8 }}
 {{- end }}
       {{- if .Values.imagePullSecrets }}
       imagePullSecrets:
